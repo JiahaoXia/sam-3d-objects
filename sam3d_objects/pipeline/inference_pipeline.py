@@ -532,7 +532,7 @@ class InferencePipeline:
             }
 
     def postprocess_slat_output(
-        self, outputs, with_mesh_postprocess, with_texture_baking, use_vertex_color
+        self, outputs, with_mesh_postprocess, with_texture_baking, use_vertex_color, simplify=0.95, texture_size=1024, bake_texture_mode="fast",  
     ):
         # GLB files can be extracted from the outputs
         logger.info(
@@ -543,13 +543,14 @@ class InferencePipeline:
                 outputs["gaussian"][0],
                 outputs["mesh"][0],
                 # Optional parameters
-                simplify=0.95,  # Ratio of triangles to remove in the simplification process
-                texture_size=1024,  # Size of the texture used for the GLB
-                verbose=False,
+                simplify=simplify,  # Ratio of triangles to remove in the simplification process
+                texture_size=texture_size,  # Size of the texture used for the GLB
+                verbose=True,
                 with_mesh_postprocess=with_mesh_postprocess,
                 with_texture_baking=with_texture_baking,
                 use_vertex_color=use_vertex_color,
                 rendering_engine=self.rendering_engine,
+                bake_texture_mode=bake_texture_mode,
             )
 
         # glb.export("sample.glb")
